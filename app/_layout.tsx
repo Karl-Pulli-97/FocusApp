@@ -13,12 +13,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack screenOptions={{ headerStyle: { backgroundColor: '#0B0E13' }, headerTintColor: 'white', contentStyle: { backgroundColor: '#0B0E13' } }}>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="session" options={{ title: 'Session' }} />
+      <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Ny Session' }} />
+    </Stack>
   );
 }
