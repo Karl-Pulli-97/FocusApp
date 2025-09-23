@@ -51,4 +51,31 @@ Join our community of developers creating universal apps.
 
 ## Components
 
+React Native
 
+1. FlatList
+– Visar listan med fokussessions på startsidan och hanterar effektiv rendering.
+
+2. Pressable
+– Knappar för handlingar: Starta session, Spara session, Avbryt, Ta bort (långtryck).
+
+3. Switch
+– Toggle per session: “Öppna DND/Inställningar vid start” (på/av).
+
+4. TextInput
+– Formulär i “Ny Session” (namn, fokusminuter, pausminuter).
+
+Expo SDK:er
+
+1. expo-notifications
+– Ber om notisbehörighet och schemalägger “Fokus klart”/paus-påminnelse.
+
+2. expo-haptics
+– Ger haptisk feedback när en session startar/slutar (snabb bekräftelsekänsla).
+
+3. expo-intent-launcher
+– Android: Öppnar systemets DND-/notisinställningar med ett tryck (snabb genväg).
+– iOS: Faller tillbaka på Linking.openSettings() för att öppna appens inställningar.
+
+4. expo-secure-store
+– Sparar sessions lokalt (namn, fokus-/paustid, DND-togglen) på ett säkert sätt.

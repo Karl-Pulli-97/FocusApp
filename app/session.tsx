@@ -1,0 +1,1 @@
+// Skärm för att visa Session-information.
