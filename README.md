@@ -79,3 +79,11 @@ Expo SDK:er
 
 4. expo-secure-store
 – Sparar sessions lokalt (namn, fokus-/paustid, DND-togglen) på ett säkert sätt.
+
+## Att göra/Extra feats
+
+- Kunna skriva in och spara datum och deadlines för tentor eller inlämningar.
+- Notiser som påminner om dessa events.
+
+- Kolla om man kan tysta andra appar medans man har igång en session.
+
