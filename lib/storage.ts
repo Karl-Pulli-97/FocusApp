@@ -1,1 +1,1 @@
-// lagring av Sessions
+// Lagring av Sessions
