@@ -55,7 +55,7 @@ export default function HomeScreen() {
             <Text style={{ color: '#C9CDD6' }}>{item.focusMin} min fokus • {item.breakMin} min paus</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                    <Text style={{ color: '#C9CDD6' }}>Öppna DND/Inställn. vid start</Text>
+                    <Text style={{ color: '#C9CDD6' }}>Tysta appar</Text>
                     <Switch value={item.openSettingsShortcut} onValueChange={async (v) => {
                         const next = profiles.map(p => p.id === item.id ? { ...p, openSettingsShortcut: v } : p);
                         setProfiles(next);
@@ -78,7 +78,7 @@ export default function HomeScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: '#0B0E13', paddingTop: 56, paddingHorizontal: 16 }}>
             <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', marginBottom: 12 }}>Studiero</Text>
-            <Text style={{ color: '#9AA2B2', marginBottom: 8 }}>Välj en profil och starta en fokussession. Långtryck “Ta bort” för att radera.</Text>
+            <Text style={{ color: '#9AA2B2', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Ta bort” för att radera.</Text>
 
 
             <Pressable onPress={() => router.push('/modal')} style={({ pressed }) => ({ alignSelf: 'flex-start', marginBottom: 10, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#10B981' : '#059669' })}>

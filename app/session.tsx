@@ -1,6 +1,6 @@
 // Skärm för att visa Session-information.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -11,22 +11,33 @@ import { SessionProfile } from '../types/session';
 
 
 export default function SessionScreen() {
-    const { profile: profileParam } = useLocalSearchParams<{ profile: string }>();
-    const profile: SessionProfile = JSON.parse(String(profileParam));
+    const params = useLocalSearchParams<{ profile?: string | string[] }>();
+    const raw = Array.isArray(params.profile) ? params.profile[0] : params.profile;
+
+    const profile: SessionProfile | null = useMemo(() => {
+        try {
+            return raw ? (JSON.parse(String(raw)) as SessionProfile) : null;
+        } catch {
+            return null;
+        }
+    }, [raw]);
 
 
-    const [sessionActive, setSessionActive] = useState(true);
-    const [sessionEndsAt, setSessionEndsAt] = useState<number | null>(Date.now() + profile.focusMin * 60 * 1000);
+    const [sessionActive, setSessionActive] = useState<boolean>(!!profile);
+    const [sessionEndsAt, setSessionEndsAt] = useState<number | null>(
+        profile ? Date.now() + profile.focusMin * 60 * 1000 : null
+    );
     const { remainingStr } = useCountdown(sessionActive, sessionEndsAt);
 
 
     useEffect(() => {
+        if (!profile) return;
         (async () => {
             await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             if (profile.openSettingsShortcut) openSystemFocusSettings();
-            await scheduleEndNotification(Math.ceil((profile.focusMin * 60 * 1000) / 1000));
+            await scheduleEndNotification(profile.focusMin * 60);
         })();
-    }, []);
+    }, [profile]);
 
 
     async function endSession() {
