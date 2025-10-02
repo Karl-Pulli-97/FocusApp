@@ -1,7 +1,4 @@
-// Nedräknare för appen.
-
 import { useEffect, useMemo, useRef, useState } from 'react';
-
 
 export function useCountdown(active: boolean, endsAt: number | null) {
     const [now, setNow] = useState(Date.now());

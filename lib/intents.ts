@@ -1,5 +1,3 @@
-// Hantering av DND inställningar.
-
 import { Platform, Linking } from 'react-native';
 import * as IntentLauncher from 'expo-intent-launcher';
 

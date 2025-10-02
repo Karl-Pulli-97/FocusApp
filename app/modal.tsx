@@ -1,5 +1,3 @@
-// Skapandet av en Session 
-
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, Pressable, Switch } from 'react-native';
 import { router } from 'expo-router';
@@ -9,9 +7,9 @@ import { loadProfiles, saveProfiles } from '../lib/storage';
 
 export default function CreateProfileModal() {
     const [profiles, setProfiles] = useState<SessionProfile[]>([]);
-    const [name, setName] = useState('Plugga 45/5');
-    const [focusMin, setFocusMin] = useState('45');
-    const [breakMin, setBreakMin] = useState('5');
+    const [name, setName] = useState("");
+    const [focusMin, setFocusMin] = useState("");
+    const [breakMin, setBreakMin] = useState("");
     const [openSettingsShortcut, setOpenSettingsShortcut] = useState(true);
 
 
@@ -30,7 +28,7 @@ export default function CreateProfileModal() {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#0B0E13', paddingTop: 56, paddingHorizontal: 16 }}>
+        <View style={{ flex: 1, paddingTop: 56, paddingHorizontal: 16 }}>
             <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', marginBottom: 12 }}>Ny profil</Text>
 
 

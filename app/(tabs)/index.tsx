@@ -1,5 +1,3 @@
-// Hemskärmen med hooks. Tanken är att det ska visa tidagre sessions och deadlines om man har.
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable, Switch } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
@@ -16,7 +14,7 @@ export default function HomeScreen() {
     const refresh = useCallback(async () => {
         const p = await loadProfiles();
         if (p.length === 0) {
-            const seed: SessionProfile = { id: String(Date.now()), name: 'Standard 45/5', focusMin: 45, breakMin: 5, openSettingsShortcut: true };
+            const seed: SessionProfile = { id: String(Date.now()), name: 'Standard', focusMin: 50, breakMin: 10, openSettingsShortcut: true };
             await saveProfiles([seed]);
             setProfiles([seed]);
         } else setProfiles(p);
@@ -50,9 +48,9 @@ export default function HomeScreen() {
 
 
     const renderItem = ({ item }: { item: SessionProfile }) => (
-        <View style={{ padding: 12, borderRadius: 12, backgroundColor: '#111318', marginVertical: 6, gap: 8 }}>
+        <View style={{ padding: 12, borderRadius: 12, backgroundColor: '#015d8bff', marginVertical: 6, gap: 8 }}>
             <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>{item.name}</Text>
-            <Text style={{ color: '#C9CDD6' }}>{item.focusMin} min fokus • {item.breakMin} min paus</Text>
+            <Text style={{ color: '#C9CDD6' }}>{item.focusMin} min Fokus • {item.breakMin} min Paus</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                     <Text style={{ color: '#C9CDD6' }}>Tysta appar</Text>
@@ -76,9 +74,9 @@ export default function HomeScreen() {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#0B0E13', paddingTop: 56, paddingHorizontal: 16 }}>
-            <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', marginBottom: 12 }}>Studiero</Text>
-            <Text style={{ color: '#9AA2B2', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Ta bort” för att radera.</Text>
+        <View style={{ flex: 1, backgroundColor: '#014a6eff', paddingTop: 56, paddingHorizontal: 16 }}>
+            <Text style={{ color: '#2b9dd6ff', textShadowColor: '#68c3eeff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
+            <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Ta bort” för att radera.</Text>
 
 
             <Pressable onPress={() => router.push('/modal')} style={({ pressed }) => ({ alignSelf: 'flex-start', marginBottom: 10, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#10B981' : '#059669' })}>
@@ -86,16 +84,18 @@ export default function HomeScreen() {
             </Pressable>
 
 
-            {loading ? (
-                <Text style={{ color: '#C9CDD6' }}>Laddar…</Text>
-            ) : (
-                <FlatList
-                    data={profiles}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderItem}
-                    contentContainerStyle={{ paddingBottom: 80 }}
-                />
-            )}
-        </View>
+            {
+                loading ? (
+                    <Text style={{ color: '#C9CDD6' }}>Laddar…</Text>
+                ) : (
+                    <FlatList
+                        data={profiles}
+                        keyExtractor={(item) => item.id}
+                        renderItem={renderItem}
+                        contentContainerStyle={{ paddingBottom: 80 }}
+                    />
+                )
+            }
+        </View >
     );
 }

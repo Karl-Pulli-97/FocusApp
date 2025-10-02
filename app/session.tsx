@@ -1,10 +1,8 @@
-// Skärm för att visa Session-information.
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { scheduleEndNotification } from '../lib/notifications';
+import { scheduleEndNotification, scheduleBreakEndNotification } from '../lib/notifications';
 import { useCountdown } from '../hooks/useCountdown';
 import { openSystemFocusSettings } from '../lib/intents';
 import { SessionProfile } from '../types/session';
@@ -47,7 +45,7 @@ export default function SessionScreen() {
                 const breakEnds = Date.now() + profile.breakMin * 60 * 1000;
                 setSessionEndsAt(breakEnds);
                 await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                await scheduleEndNotification(profile.breakMin * 60);
+                await scheduleBreakEndNotification(profile.breakMin * 60);
             } else {
                 await endSession();
             }
@@ -68,7 +66,7 @@ export default function SessionScreen() {
 
     if (!profile) {
         return (
-            <View style={{ flex: 1, backgroundColor: '#0B0E13', justifyContent: 'center', alignItems: 'center', padding: 16 }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
                 <Text style={{ color: 'white', fontSize: 18, fontWeight: '700', marginBottom: 8 }}>Ingen session hittades</Text>
                 <Pressable
                     onPress={() => router.back()}
@@ -85,11 +83,11 @@ export default function SessionScreen() {
         );
     }
 
-    const circleColor = phase === 'focus' ? '#2563EB' : '#10B981';
+    const circleColor = phase === 'focus' ? '#4c90dfff' : '#10B981';
     const phaseLabel = phase === 'focus' ? 'Fokus' : 'Paus';
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#0B0E13', paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
 
             <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', textAlign: 'center', marginBottom: 24 }}>
                 {profile.name}
@@ -117,7 +115,7 @@ export default function SessionScreen() {
                 <Text style={{ color: '#9AA2B2', textAlign: 'center', marginBottom: 24 }}>
                     Lås skärmen och lägg undan störmoment. Vi pingar när det är dags för paus.
                 </Text>) : <Text style={{ color: '#9AA2B2', textAlign: 'center', marginBottom: 24 }}>
-                Bra jobbat! Pausa och stata en ny session när du är redo.
+                Bra jobbat! Pausa och starta en ny session när du är redo.
             </Text>}
 
             <View style={{ flexDirection: 'row', gap: 12 }}>
@@ -152,4 +150,3 @@ export default function SessionScreen() {
         </View>
     );
 }
-

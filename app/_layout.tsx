@@ -1,13 +1,14 @@
 import { Stack } from 'expo-router';
 import React from 'react';
 
+const appBackgroundColor = '#014a6eff'
 
 export default function RootLayout() {
   return (
     <Stack screenOptions={{
-      headerStyle: { backgroundColor: '#0B0E13' },
+      headerStyle: { backgroundColor: '#04415fff' },
       headerTintColor: 'white',
-      contentStyle: { backgroundColor: '#0B0E13' },
+      contentStyle: { backgroundColor: appBackgroundColor },
     }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 

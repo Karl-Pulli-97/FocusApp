@@ -1,5 +1,3 @@
-// Lagring av Sessions
-
 import * as SecureStore from 'expo-secure-store';
 import { SessionProfile } from '../types/session';
 
