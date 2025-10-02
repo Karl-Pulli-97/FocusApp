@@ -61,11 +61,11 @@ export default function HomeScreen() {
                     }} />
                 </View>
                 <View style={{ flexDirection: 'row', gap: 10 }}>
-                    <Pressable onPress={() => start(item)} style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#3B82F6' : '#2563EB' })}>
+                    <Pressable onPress={() => start(item)} style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#10B981' : '#059669' })}>
                         <Text style={{ color: 'white', fontWeight: '700' }}>Starta</Text>
                     </Pressable>
-                    <Pressable onLongPress={() => deleteProfile(item.id)} style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#272B33' : '#1F232A' })}>
-                        <Text style={{ color: '#E87979', fontWeight: '700' }}>Ta bort</Text>
+                    <Pressable onLongPress={() => deleteProfile(item.id)} style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#bb4b4bff' : '#ad3535ff' })}>
+                        <Text style={{ color: 'white', fontWeight: '700' }}>Radera</Text>
                     </Pressable>
                 </View>
             </View>
@@ -76,7 +76,7 @@ export default function HomeScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: '#014a6eff', paddingTop: 56, paddingHorizontal: 16 }}>
             <Text style={{ color: '#2b9dd6ff', textShadowColor: '#68c3eeff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
-            <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Ta bort” för att radera.</Text>
+            <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Radera” för att ta bort profil.</Text>
 
 
             <Pressable onPress={() => router.push('/modal')} style={({ pressed }) => ({ alignSelf: 'flex-start', marginBottom: 10, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#10B981' : '#059669' })}>
@@ -86,7 +86,7 @@ export default function HomeScreen() {
 
             {
                 loading ? (
-                    <Text style={{ color: '#C9CDD6' }}>Laddar…</Text>
+                    <Text style={{ color: 'white' }}>Laddar…</Text>
                 ) : (
                     <FlatList
                         data={profiles}

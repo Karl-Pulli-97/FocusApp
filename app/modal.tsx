@@ -77,8 +77,8 @@ export default function CreateProfileModal() {
                 <Pressable onPress={addProfile} style={({ pressed }) => ({ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: 'center', backgroundColor: pressed ? '#10B981' : '#059669' })}>
                     <Text style={{ color: 'white', fontWeight: '800' }}>Spara</Text>
                 </Pressable>
-                <Pressable onPress={() => router.back()} style={({ pressed }) => ({ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: 'center', backgroundColor: pressed ? '#272B33' : '#1F232A' })}>
-                    <Text style={{ color: '#C9CDD6', fontWeight: '800' }}>Avbryt</Text>
+                <Pressable onPress={() => router.back()} style={({ pressed }) => ({ flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: 'center', backgroundColor: pressed ? '#bb4b4bff' : '#ad3535ff' })}>
+                    <Text style={{ color: 'white', fontWeight: '800' }}>Avbryt</Text>
                 </Pressable>
             </View>
         </View>
