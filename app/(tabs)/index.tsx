@@ -75,7 +75,7 @@ export default function HomeScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#014a6eff', paddingTop: 56, paddingHorizontal: 16 }}>
-            <Text style={{ color: '#2b9dd6ff', textShadowColor: '#68c3eeff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
+            <Text style={{ color: '#7edbe7ff', textShadowColor: '#498fafff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
             <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Radera” för att ta bort profil.</Text>
 
 

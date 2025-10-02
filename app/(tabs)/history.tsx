@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Image } from 'react-native';
 
 
 export default function HistoryScreen() {
     return (
-        <View style={{ flex: 1, backgroundColor: '#014a6eff', padding: 16 }}>
-            <Text style={{ color: 'white', fontSize: 18, fontWeight: '700', marginBottom: 8 }}>Historik</Text>
-            <Text style={{ color: '#9AA2B2' }}>Visa tidigare sessions. (Placeholder)</Text>
+        <View style={{ flex: 1, backgroundColor: '#014a6eff', justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+                source={require('../../assets/images/FishTank.png')}
+                style={{ width: 400, height: 400 }}
+                resizeMode="contain"
+            />
         </View>
     );
 }
