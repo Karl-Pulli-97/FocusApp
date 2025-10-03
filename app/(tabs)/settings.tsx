@@ -32,10 +32,6 @@ export default function SettingsScreen() {
                 <Text style={{ color: 'white', fontWeight: '600' }}>Vibration (Notiser)</Text>
                 <Switch value={s.hapticsEnabled} onValueChange={(v) => update('hapticsEnabled', v)} />
             </View>
-
-            <Text style={{ color: '#9AA2B2' }}>
-                Ljudinställningen påverkar om notiser spelar ljud. Vibration används vid start/avslut av session.
-            </Text>
         </View>
     );
 }

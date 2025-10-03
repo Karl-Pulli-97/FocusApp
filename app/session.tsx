@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { View, Text, Pressable, Animated, Easing, Image } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { scheduleEndNotification, scheduleBreakEndNotification } from '../lib/notifications';
@@ -52,6 +52,40 @@ export default function SessionScreen() {
         })();
     }, [remainingMs]);
 
+    const CIRCLE = 240;
+    const FISH_W = 64;
+    const FISH_H = 36;
+
+    const swim = useRef(new Animated.Value(0)).current;
+    const flip = useRef(new Animated.Value(1)).current;
+    const horizontalRange = (CIRCLE / 2) - (FISH_W / 2) - 6;
+
+    const translateX = swim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-horizontalRange, horizontalRange],
+    });
+    const bobY = swim.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [0, -6, 0],
+    });
+
+    useEffect(() => {
+        if (phase === 'focus') {
+            const loop = Animated.loop(
+                Animated.sequence([
+                    Animated.timing(flip, { toValue: 1, duration: 0, useNativeDriver: true }),
+                    Animated.timing(swim, { toValue: 1, duration: 3500, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
+                    Animated.timing(flip, { toValue: -1, duration: 0, useNativeDriver: true }),
+                    Animated.timing(swim, { toValue: 0, duration: 3500, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
+                ])
+            );
+            loop.start();
+            return () => loop.stop();
+        } else {
+            swim.stopAnimation(); swim.setValue(0);
+            flip.stopAnimation(); flip.setValue(1);
+        }
+    }, [phase]);
 
     async function endSession() {
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -74,7 +108,7 @@ export default function SessionScreen() {
                         paddingVertical: 12,
                         paddingHorizontal: 16,
                         borderRadius: 12,
-                        backgroundColor: pressed ? '#3B82F6' : '#2563EB',
+                        backgroundColor: pressed ? '#54b6e4ff' : '#409bc9ff',
                     })}
                 >
                     <Text style={{ color: 'white', fontWeight: '800' }}>Tillbaka</Text>
@@ -89,26 +123,45 @@ export default function SessionScreen() {
     return (
         <View style={{ flex: 1, paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' }}>
 
-            <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', textAlign: 'center', marginBottom: 24 }}>
+            <Text style={{ color: 'white', fontSize: 22, fontWeight: '800', textAlign: 'center', marginBottom: 64 }}>
                 {profile.name}
             </Text>
 
-            <View
-                style={{
-                    width: 240,
-                    height: 240,
-                    borderRadius: 120,
-                    borderWidth: 4,
-                    borderColor: circleColor,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: 24,
-                }}
-            >
-                <Text style={{ color: '#C9CDD6', fontSize: 56, fontWeight: '700', fontVariant: ['tabular-nums'] }}>
-                    {remainingStr}
-                </Text>
-                <Text style={{ color: '#9AA2B2', marginTop: 6 }}>{phaseLabel}</Text>
+            <View style={{ width: CIRCLE, alignItems: 'center', marginBottom: 24 }}>
+                {phase === 'focus' && (
+                    <Animated.View
+                        pointerEvents="none"
+                        style={{
+                            position: 'absolute',
+                            top: -FISH_H - 8,
+                            left: (CIRCLE / 2) - (FISH_W / 2),
+                            transform: [{ translateX }, { translateY: bobY }, { scaleX: flip }],
+                        }}
+                    >
+                        <Image
+                            source={require('../assets/images/Fish.png')}
+                            style={{ width: FISH_W, height: FISH_H }}
+                            resizeMode="contain"
+                        />
+                    </Animated.View>
+                )}
+
+                <View
+                    style={{
+                        width: CIRCLE,
+                        height: CIRCLE,
+                        borderRadius: CIRCLE / 2,
+                        borderWidth: 4,
+                        borderColor: circleColor,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Text style={{ color: '#C9CDD6', fontSize: 56, fontWeight: '700', fontVariant: ['tabular-nums'] }}>
+                        {remainingStr}
+                    </Text>
+                    <Text style={{ color: '#9AA2B2', marginTop: 6 }}>{phaseLabel}</Text>
+                </View>
             </View>
 
             {phase === 'focus' ? (
@@ -127,7 +180,7 @@ export default function SessionScreen() {
                             paddingHorizontal: 16,
                             borderRadius: 12,
                             alignItems: 'center',
-                            backgroundColor: pressed ? '#0EA5E9' : '#0284C7',
+                            backgroundColor: pressed ? '#54b6e4ff' : '#409bc9ff',
                         })}
                     >
                         <Text style={{ color: 'white', fontWeight: '800' }}>Hoppa över paus</Text>
@@ -141,7 +194,7 @@ export default function SessionScreen() {
                         paddingHorizontal: 16,
                         borderRadius: 12,
                         alignItems: 'center',
-                        backgroundColor: pressed ? '#F87171' : '#EF4444',
+                        backgroundColor: pressed ? '#bb4b4bff' : '#ad3535ff',
                     })}
                 >
                     <Text style={{ color: 'white', fontWeight: '800' }}>Avbryt</Text>
