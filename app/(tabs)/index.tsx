@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, FlatList, Pressable, Switch } from 'react-native';
+import { View, Text, FlatList, Pressable, Switch, Image } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { SessionProfile } from '../../types/session';
 import { ensureNotifPermissions } from '../../lib/notifications';
@@ -92,8 +92,12 @@ export default function HomeScreen() {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#014a6eff', paddingTop: 56, paddingHorizontal: 16 }}>
-            <Text style={{ color: '#7edbe7ff', textShadowColor: '#498fafff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
+        <View style={{ flex: 1, backgroundColor: '#014a6eff', paddingTop: 12, paddingHorizontal: 16 }}>
+            <Image
+                source={require('../../assets/images/MindfulMinnowLogo.png')}
+                style={{ width: 200, height: 200, alignSelf: 'center' }}
+                resizeMode="contain"
+            />
             <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Radera” för att ta bort profil.</Text>
 
             {resumeBtn && (
