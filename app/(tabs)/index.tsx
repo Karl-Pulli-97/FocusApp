@@ -3,12 +3,13 @@ import { View, Text, FlatList, Pressable, Switch } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { SessionProfile } from '../../types/session';
 import { ensureNotifPermissions } from '../../lib/notifications';
-import { loadProfiles, saveProfiles } from '../../lib/storage';
+import { loadProfiles, saveProfiles, loadActiveSession } from '../../lib/storage';
 
 
 export default function HomeScreen() {
     const [profiles, setProfiles] = useState<SessionProfile[]>([]);
     const [loading, setLoading] = useState(true);
+    const [resumeBtn, setResumeBtn] = useState<{ label: string, params: any } | null>(null);
 
 
     const refresh = useCallback(async () => {
@@ -34,6 +35,23 @@ export default function HomeScreen() {
         refresh();
     }, [refresh]));
 
+    useFocusEffect(useCallback(() => {
+        (async () => {
+            const active = await loadActiveSession();
+            if (active && active.endsAt > Date.now()) {
+                setResumeBtn({
+                    label: `Aktiv Session: ${active.profile.name}`,
+                    params: {
+                        profile: JSON.stringify(active.profile),
+                        phase: active.phase,
+                        endsAt: String(active.endsAt),
+                    }
+                });
+            } else {
+                setResumeBtn(null);
+            }
+        })();
+    }, []));
 
     async function deleteProfile(id: string) {
         const next = profiles.filter(p => p.id !== id);
@@ -78,7 +96,17 @@ export default function HomeScreen() {
             <Text style={{ color: '#7edbe7ff', textShadowColor: '#498fafff', textShadowOffset: { width: 2, height: 0 }, textShadowRadius: 1, fontSize: 45, fontWeight: '800', marginBottom: 12, }}>Mindful Minnow</Text>
             <Text style={{ color: '#aeb4beff', marginBottom: 8 }}>Välj en profil och starta en fokussession. Håll ner “Radera” för att ta bort profil.</Text>
 
-
+            {resumeBtn && (
+                <Pressable
+                    onPress={() => router.push({ pathname: '/session', params: resumeBtn.params })}
+                    style={({ pressed }) => ({
+                        alignSelf: 'flex-start', marginBottom: 12, paddingVertical: 10, paddingHorizontal: 14, borderRadius: 12,
+                        backgroundColor: pressed ? '#54b6e4ff' : '#409bc9ff'
+                    })}
+                >
+                    <Text style={{ color: 'white', fontWeight: '800' }}>{resumeBtn.label}</Text>
+                </Pressable>
+            )}
             <Pressable onPress={() => router.push('/modal')} style={({ pressed }) => ({ alignSelf: 'flex-start', marginBottom: 10, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 10, backgroundColor: pressed ? '#10B981' : '#059669' })}>
                 <Text style={{ color: 'white', fontWeight: '700' }}>+ Ny profil</Text>
             </Pressable>

@@ -6,11 +6,14 @@ import { scheduleEndNotification, scheduleBreakEndNotification } from '../lib/no
 import { useCountdown } from '../hooks/useCountdown';
 import { openSystemFocusSettings } from '../lib/intents';
 import { SessionProfile } from '../types/session';
+import { clearActiveSession, saveActiveSession } from '../lib/storage';
 
 type Phase = 'focus' | 'break';
 
 export default function SessionScreen() {
-    const params = useLocalSearchParams<{ profile?: string | string[] }>();
+    const params = useLocalSearchParams<{ profile?: string | string[]; phase?: string; endsAt?: string }>();
+    const incomingPhase = (params.phase as Phase | undefined) ?? 'focus';
+    const incomingEndsAt = params.endsAt ? Number(params.endsAt) : undefined;
     const raw = Array.isArray(params.profile) ? params.profile[0] : params.profile;
 
     const profile: SessionProfile | null = useMemo(() => {
@@ -18,20 +21,25 @@ export default function SessionScreen() {
     }, [raw]);
 
 
-    const [phase, setPhase] = useState<Phase>('focus');
+    const [phase, setPhase] = useState<Phase>(incomingPhase);
     const [sessionActive, setSessionActive] = useState<boolean>(!!profile);
     const [sessionEndsAt, setSessionEndsAt] = useState<number | null>(
-        profile ? Date.now() + profile.focusMin * 60 * 1000 : null
+        profile ? (incomingEndsAt ?? Date.now() + profile.focusMin * 60 * 1000) : null
     );
     const { remainingMs, remainingStr } = useCountdown(sessionActive, sessionEndsAt);
 
 
     useEffect(() => {
-        if (!profile) return;
+        if (!profile || !sessionEndsAt) return;
         (async () => {
             await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
             if (profile.openSettingsShortcut) openSystemFocusSettings();
-            await scheduleEndNotification(profile.focusMin * 60);
+
+            if (!incomingEndsAt && phase === 'focus') {
+                await scheduleEndNotification(profile.focusMin * 60);
+            }
+            await saveActiveSession({ profile, phase, endsAt: sessionEndsAt });
         })();
     }, [profile]);
 
@@ -51,6 +59,11 @@ export default function SessionScreen() {
             }
         })();
     }, [remainingMs]);
+
+    useEffect(() => {
+        if (!profile || !sessionEndsAt) return;
+        saveActiveSession({ profile, phase, endsAt: sessionEndsAt });
+    }, [phase, sessionEndsAt, profile]);
 
     const CIRCLE = 240;
     const FISH_W = 64;
@@ -91,6 +104,7 @@ export default function SessionScreen() {
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setSessionActive(false);
         setSessionEndsAt(null);
+        await clearActiveSession();
         router.back();
     }
 

@@ -21,7 +21,7 @@ export default function TabsLayout() {
         )
       }} />
       <Tabs.Screen name="history" options={{
-        title: 'Historik', tabBarIcon: ({ color, size }) => (
+        title: 'Akvariet', tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="fishbowl-outline" size={size} color={color} />
         )
       }} />
