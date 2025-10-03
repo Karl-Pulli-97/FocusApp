@@ -6,9 +6,9 @@ const KEY = 'studiero_profiles_v1';
 
 
 export async function loadProfiles(): Promise<SessionProfile[]> {
-    const raw = await SecureStore.getItemAsync(KEY);
-    if (!raw) return [];
-    try { return JSON.parse(raw); } catch { return []; }
+    const profile = await SecureStore.getItemAsync(KEY);
+    if (!profile) return [];
+    try { return JSON.parse(profile); } catch { return []; }
 }
 
 

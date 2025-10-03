@@ -1,11 +1,17 @@
 import * as Notifications from 'expo-notifications';
 import { Alert } from 'react-native';
+import { loadSettings } from './settings';
 
+let soundEnabledCache = true;
+
+export function setNotificationSoundEnabled(v: boolean) {
+    soundEnabledCache = v;
+}
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
-        shouldPlaySound: false,
+        shouldPlaySound: soundEnabledCache,
         shouldSetBadge: false,
         shouldShowBanner: true,
         shouldShowList: true,
@@ -30,32 +36,25 @@ export async function ensureNotifPermissions() {
             Alert.alert('Behörighet saknas', 'Tillåt notiser för påminnelser om fokus/paus.');
         }
     }
+    const s = await loadSettings();
+    soundEnabledCache = s.soundEnabled;
+}
+
+async function schedule(content: Notifications.NotificationContentInput, seconds: number) {
+    const trigger: Notifications.TimeIntervalTriggerInput = {
+        type: timeIntervalType(),
+        seconds,
+        repeats: false,
+    };
+    await Notifications.scheduleNotificationAsync({ content, trigger });
 }
 
 export async function scheduleEndNotification(seconds: number) {
-    const trigger: Notifications.TimeIntervalTriggerInput = {
-        type: timeIntervalType(),
-        seconds,
-        repeats: false,
-    };
-
     await Notifications.cancelAllScheduledNotificationsAsync();
-    await Notifications.scheduleNotificationAsync({
-        content: { title: 'Fokus klart', body: 'Dags för paus! Bra jobbat.' },
-        trigger,
-    });
+    await schedule({ title: 'Fokus klart', body: 'Dags för paus! Bra jobbat.' }, seconds);
 }
 
 export async function scheduleBreakEndNotification(seconds: number) {
-    const trigger: Notifications.TimeIntervalTriggerInput = {
-        type: timeIntervalType(),
-        seconds,
-        repeats: false,
-    };
-
     await Notifications.cancelAllScheduledNotificationsAsync();
-    await Notifications.scheduleNotificationAsync({
-        content: { title: 'Paus klar', body: 'Dags att fokusera igen!' },
-        trigger,
-    });
+    await schedule({ title: 'Paus klar', body: 'Dags att fokusera igen!' }, seconds);
 }
