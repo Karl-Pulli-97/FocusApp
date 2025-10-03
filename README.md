@@ -1,4 +1,7 @@
 # Welcome to Mindful Minnow app 👋
+Min app heter Mindful Minnow!
+Detta är en app som är tänkt att hjälpa användaren att fokusera under en period som användaren själv väljer. Appen ger feedback under en session när det är dags att fokusera och när det är dags för rast/vila. Det finns inställningar för hur notiserna ska funka. Det går även att toggla dnd mode när man startar en sektion men den fungerarde inte riktigt som jag tänkt.
+Min tanke var även att få till så att undertiden man fokuserar så hjälper man till att växa en fisk som man sedan kan spara i ett akvarie för att få en känsla av progress. I akvariet sen ska man kunna se sina fiskar och man skulle eventuellt kunna interagera med dem som tillexempel ge dem mat.
 
 ## Get started
 
@@ -13,20 +16,6 @@
    ```bash
    npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Exp
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
 ## Components
 
