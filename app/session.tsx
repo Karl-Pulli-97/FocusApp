@@ -115,7 +115,7 @@ export default function SessionScreen() {
                 <Text style={{ color: '#9AA2B2', textAlign: 'center', marginBottom: 24 }}>
                     Lås skärmen och lägg undan störmoment. Vi pingar när det är dags för paus.
                 </Text>) : <Text style={{ color: '#9AA2B2', textAlign: 'center', marginBottom: 24 }}>
-                Bra jobbat! Pausa och starta en ny session när du är redo.
+                Bra jobbat! Vila och starta en ny session när du är redo.
             </Text>}
 
             <View style={{ flexDirection: 'row', gap: 12 }}>
